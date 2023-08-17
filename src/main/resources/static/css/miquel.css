@@ -1,0 +1,77 @@
+.small-text{
+  font-size: 0.8rem;
+  margin: 0
+}
+
+#footer{
+  text-align: center;
+  padding: 2% 15%}
+
+.bellow-bar{
+  margin: 10px 0px 0px 0px;
+}
+
+a{
+    color: red;
+}
+
+
+.footer-icon{
+  padding: 5px}
+
+.footer-icon-ind{
+  margin: 6px;
+}
+
+.scale-icon:hover{
+  transform: scale(1.5);
+}
+
+body{
+  font-family: Montserrat
+  lor:gray;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: Montserrat;
+  font-weight: bold}
+
+p{
+  font-weight: light;
+  color: #BCB3B6;
+  font-size: 1.2rem;}
+
+.colored-section{
+    color : white;
+    background-color: #ff4c68;
+    padding: 1% 0% 1%;
+}
+
+.list{
+    padding: 2% 2%;
+}
+
+.navbar navbar-expand-lg{
+    color:white;
+}
+
+.scale-element:hover{
+  transform: scale(1.5);
+}
+
+ .alert-text {
+    display: flex;
+    justify-content: flex;
+    align-items: flex-end;
+ }
+
+.centered {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.bdr {
+  border-radius: 10px;
+  overflow: hidden;
+}
