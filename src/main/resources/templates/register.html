@@ -26,8 +26,11 @@
             <div th:if="${param.exito}">
                 <div class="alert alert-info"> Se ha registrado correctamente</div>
             </div>
-            <div th:if="${param.error}">
-                <div class="alert alert-danger"> No se ha registrado</div>
+            <div th:if="${param.fail}" class="alert alert-danger">
+                Error - Username or email already exists!
+            </div>
+            <div th:if="${param.error}" class="alert alert-danger">
+                Error - Username or email already exists!
             </div>
 
             <form th:action="@{/page/actionRegister}" th:object="${registerRequest}" method="post">

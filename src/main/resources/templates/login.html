@@ -29,31 +29,41 @@
             <div th:if="${param.logout}">
                 <div class="alert alert-info"> Ha cerrado sessión correctamente</div>
             </div>
+            <div th:if="${param.error}" class="alert alert-danger">
+                Error - Username or email doesn't exists!
+            </div>
 
 
-            <form th:action="@{/page/actionLogin}" method="post">
+            <form th:action="@{/page/login}" method="post" role="form">
                 <div class="form-group">
                     <label for="username">Email address</label>
-                    <input id="username" type="email" name="username" required autofocus="autofocus"
-                           class="form-control"  placeholder="email@example.com">
+                    <input
+                            id="username"
+                            type="email"
+                            name="username"
+                            required autofocus="autofocus"
+                            class="form-control"
+                            placeholder="email@example.com">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input id="password" type="password" name="password" required
-                           class="form-control" placeholder="Password">
+                    <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            required
+                            class="form-control"
+                            placeholder="Password">
                 </div>
 
-<!--                <div class="form-group">-->
-<!--                    <input id="login-submit" type="checkbox" class="form-check-input" >-->
-<!--                    <label class="form-check-label">-->
-<!--                        Remember me-->
-<!--                    </label>-->
-<!--                </div>-->
                 <br>
 
                 <div class="col-md-6 offset-md-3">
                     <div class="row">
-                        <input type="submit" class="form-control  btn btn-primary" value="Log in">
+                        <input
+                                type="submit"
+                                value="Log in"
+                                class="form-control  btn btn-primary">
                     </div>
                 </div>
 
@@ -61,7 +71,8 @@
             </form>
 
             <br>
-            <a href="#" th:href="@{/page/register}" style="color:MediumSeaGreen;">New around here? Sign up</a>
+            <a href="#" th:href="@{/page/register}" style="color:MediumSeaGreen;">
+                Don't have an account already? Register Here.</a>
             <br>
             <a href="#">Forgot password?</a>
             <br>

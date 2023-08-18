@@ -33,36 +33,25 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
+        http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "api/mysql/auth/**",
-                                // -- Swagger UI v3 (OpenAPI)
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-//                        "/page/login**",
-                        "/page/home**",
-                        "/page/register**",
-                        "/images/**",
-                        "/css/**")
-                .permitAll()
-                .requestMatchers("/admin/home").hasRole("ADMIN")
-//                .anyRequest().permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/page/login")
-                    .loginProcessingUrl("/page/actionLogin")
-                    .permitAll()
-                .and()
-                .logout()
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/page/logout"))
-                    .logoutSuccessUrl("/page/login?logout").permitAll()
+                        // -- Swagger UI v3 (OpenAPI)
+                        "/v3/api-docs/**", "/swagger-ui/**",
+                        "/images/**", "/css/**",
+                        "/page/home", "/page/login", "/page/register"
 
+                        )
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+//                .requestMatchers("/page/players").authenticated()
                 .and()
+//                .requestMatchers("/admin/home").hasRole("ADMIN")
+//                .anyRequest().permitAll()
+//                .anyRequest().authenticated()
+//                .and()
 //                .rememberMe()
 //                    .userDetailsService(userDetailsService)
 //                    .tokenValiditySeconds(86400)
@@ -71,8 +60,22 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
                 .authenticationProvider(authenticationProvider)
+                .formLogin(form -> form
+                        .loginPage("/page/login")
+                        .loginProcessingUrl("/page/login")
+                        .defaultSuccessUrl("/page/home")
+                        .failureUrl("/page/login?error=true")
+                        .permitAll()
+                )
+                .logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/page/logout"))
+                                .logoutSuccessUrl("/page/home")
+                                .deleteCookies("JSESSIONID")
+                                .invalidateHttpSession(true)
+                                .permitAll()
+                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

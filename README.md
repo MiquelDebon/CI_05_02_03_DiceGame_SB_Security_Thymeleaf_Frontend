@@ -35,96 +35,11 @@ The software must respect the main design patterns.
     - GET     /players/ranking/loser  -> returns the player with the worst success rate.
     - GET     /players/ranking/winner -> returns the player with the worst success rate.
 
-Endpoints filter by pre-authorization:
-```
-By ROLE: The role assigned to the user related to the JWT token
-@PreAuthorize("hasAuthority('ADMIN')")
-@PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
 
-By ID: Where the ID must be the same that the id of the user related to the JWT token
-@PreAuthorize("#id == authentication.principal.id")
-
-By ID or ROLE: 
-@PreAuthorize("#id == authentication.principal.id or hasAuthority('ADMIN')")
-
-```
-### Swagger summary 
-![Phot](src/main/resources/readme/screenShotProject/swagger_summary.png)
 
 
 
 ### References:
-- JPA entity relationships
-  - [Bezkoder](https://www.bezkoder.com/jpa-one-to-many/) 
-  - [Tutorialspoint](https://www.tutorialspoint.com/jpa/jpa_entity_relationships.htm)
-- [JPA custom queries - Bezkoder](https://www.bezkoder.com/jpa-repository-query/)
-- [Swagger - Bezkoder](https://www.bezkoder.com/swagger-3-annotations/)
-- Testing
-  - Arrange Act Assert
-  - [Spring Boot Unit Testing Tutorial (W/ Mockito) - Teddy Smith](https://www.youtube.com/playlist?list=PL82C6-O4XrHcg8sNwpoDDhcxUCbFy855E)
-  - [Writing JUnit Tests using JUnit and Mockito | Java Techie](https://www.youtube.com/watch?v=kXhYu939_5s)
-  - [PRUEBAS de INTEGRACIÓN en SPRING BOOT | Programando en Java](https://www.youtube.com/watch?v=fEv3AXFqLXg)
-  - [Learn Unit Testing and Integration Testing | AmigosCode](https://www.youtube.com/watch?v=Geq60OVyBPg)
-  - [@DataJpaTest example for Spring Data Repository Unit Test | Bezkoder](https://www.bezkoder.com/spring-boot-unit-test-jpa-repo-datajpatest/)
-  
-- JWT - SpringBoot Security
-  - [Bezkoder - Spring Boot Token based Authentication with Spring Security & JWT](https://www.bezkoder.com/spring-boot-jwt-authentication/)
-  - [Amigoscode - Spring Boot 3 + Spring Security 6 - JWT Authentication and Authorisation [NEW] [2023]](https://www.youtube.com/watch?v=KxqlJblhzfI&t=1040s)
-  - [Bezkoder - Spring Boot 2 JWT Authentication with Spring Security](https://www.bezkoder.com/spring-boot-jwt-mysql-spring-security-architecture/)
-  - [PreAuthorization](https://docs.spring.io/spring-security/site/docs/5.0.7.RELEASE/reference/html/el-access.html)
-  
-- More Swagger
-  - [Swagger 3 annotations in Spring Boot](https://www.bezkoder.com/swagger-3-annotations/#Swagger_3_ApiResponses_and_ApiResponse_annotation)
-  - [Spring Boot + Swagger 3 example (with OpenAPI 3) - Advanced](https://www.bezkoder.com/spring-boot-swagger-3/)
-
-- Exception Handler
-  - [REST API Request Validation & Exception Handling Realtime Example | JavaTechie](https://www.youtube.com/watch?v=gPnd-hzM_6A)
-  - [How To Handle Exceptions | Amigoscode](https://www.youtube.com/watch?v=PzK4ZXa2Tbc)
-  - [Spring Boot @ControllerAdvice & @ExceptionHandler example | Bezkoder](https://www.bezkoder.com/spring-boot-controlleradvice-exceptionhandler/)
+- [spring-boot-spring-security-thymeleaf-example](https://mkyong.com/spring-boot/spring-boot-spring-security-thymeleaf-example/)
 
 
-
-### Testing 
-
-<table>
-   <tr>
-      <td><p>Repository Game SQL</p></td>
-      <td><p>Repository Player SQL</p></td>
-   </tr>
-   <tr>
-      <td> 
-      <img src="src/main/resources/readme/imagesTest/repositorySQLGame.png" />
-      </td>
-      <td>
-      <img src="src/main/resources/readme/imagesTest/repositorySQLPlayer.png">
-      </td>
-   </tr>
-    <tr>
-      <td><p>Dice Game Services SQL </p></td>
-      <td><p>-</p></td>
-   </tr>
-    <tr>
-      <td> 
-      <img src="src/main/resources/readme/imagesTest/serviceSQLPlayerGame.png" />
-      </td>
-      <td>
-      <img src="">
-      </td>
-   </tr>
-
-  </tr>
-    <tr>
-      <td><p>Controller Dice Game SQL </p></td>
-      <td><p>Controller Authoritzation SQL</p></td>
-   </tr>
-    <tr>
-      <td> 
-      <img src="src/main/resources/readme/imagesTest/diceGameControllerSQLTest.png" />
-      </td>
-      <td>
-      <img src="src/main/resources/readme/imagesTest/authControllerSQLTest.png">
-      </td>
-   </tr>
- 
-
-</table>

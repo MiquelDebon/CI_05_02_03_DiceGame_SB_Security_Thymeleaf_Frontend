@@ -2,7 +2,7 @@
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:th="http://thymeleaf.org" lang=""
+      xmlns:th="http://thymeleaf.org"
 >
 
 <head th:fragment="head">
@@ -52,6 +52,8 @@
                             <a class="nav-link" href="http://localhost:9005/page/login">Login</a>
                             <a class="nav-link" href="http://localhost:9005/page/register">Register</a>
                             <a class="nav-link" href="http://localhost:9005/page/players">Players</a>
+                            <a class="nav-link" th:href="@{/page/logout}">Logout</a>
+
 <!--                            <a class="nav-link " th:href="@{/sucursal/getAll}" th:text="'Members'"></a>-->
                             <a class="nav-link " href="https://www.linkedin.com/in/miquel-debon-villagrasa/">Linkedin</a>
                         </div>

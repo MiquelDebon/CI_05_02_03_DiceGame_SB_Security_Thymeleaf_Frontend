@@ -7,6 +7,7 @@ import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillag
 import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,10 @@ public class pageController {
 
     // http://localhost:9005/page/home
     @GetMapping("/home")
-    public String homePage(Model model) {
+    public String homePage(Model model, Authentication authentication) {
+        if(authentication != null){
+            log.info(authentication.toString());
+        }
         model.addAttribute("title", "We are IT-Branch");
         return "home";
     }
@@ -57,17 +61,18 @@ public class pageController {
 
 
     // http://localhost:9005/page/login
-    @GetMapping({"/login", "/"})
+    @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("title", "Login page");
         return "login";
     }
 
-    @PostMapping("/actionLogin")
-    public String iniciarSesion(){
-
-        return "redirect:/page/players";
+    @GetMapping("/logout")
+    public String logout(Model model) {
+        model.addAttribute("title", "Login page");
+        return "login";
     }
+
 
 
     // http://localhost:9005/page/register
