@@ -27,7 +27,6 @@ public class AppConfiguration {
         return authenticationProvider;
     }
 
-    //MySQL
     @Bean
     public UserDetailsService userDetailsService(){
         return username -> userRepository.findByEmail(username)

@@ -45,11 +45,6 @@ public class pageController {
     // http://localhost:9005/page/players
     @GetMapping({"/players", "/getAll"})
     public String table(Model model) {
-//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-//                .getPrincipal();
-//        String username = userDetails.getUsername();
-//        log.info(username);
-//
         List<PlayerGameDTO> players = services.getAllPlayersDTORanking();
 
         model.addAttribute("title", "User player mode: ");

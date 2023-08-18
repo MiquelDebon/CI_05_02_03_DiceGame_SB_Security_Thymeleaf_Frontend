@@ -44,27 +44,15 @@ public class SecurityConfiguration {
 
                         )
                 .permitAll()
+//                .requestMatchers("/admin/home").hasRole("ADMIN")
+//                .requestMatchers("/page/players").authenticated()
                 .anyRequest()
                 .authenticated()
-//                .requestMatchers("/page/players").authenticated()
                 .and()
-//                .requestMatchers("/admin/home").hasRole("ADMIN")
-//                .anyRequest().permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .rememberMe()
-//                    .userDetailsService(userDetailsService)
-//                    .tokenValiditySeconds(86400)
-//                    .key("remember-me-key")
-//                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider)
                 .formLogin(form -> form
                         .loginPage("/page/login")
+                        .defaultSuccessUrl("/page/players")
                         .loginProcessingUrl("/page/login")
-                        .defaultSuccessUrl("/page/home")
                         .failureUrl("/page/login?error=true")
                         .permitAll()
                 )
@@ -72,11 +60,10 @@ public class SecurityConfiguration {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/page/logout"))
                                 .logoutSuccessUrl("/page/home")
-                                .deleteCookies("JSESSIONID")
+//                                .deleteCookies("JSESSIONID")
                                 .invalidateHttpSession(true)
                                 .permitAll()
-                )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                );
         return http.build();
     }
 
