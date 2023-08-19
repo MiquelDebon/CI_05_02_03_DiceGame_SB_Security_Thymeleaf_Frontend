@@ -1,9 +1,8 @@
 
 <p float="left">
-  <img src="src/main/resources/images/springboot.png" width="100" />
-  <img src="src/main/resources/images/jwt.png" width="100" /> 
-  <img src="src/main/resources/images/mongodb.png" width="100" />
-  <img src="src/main/resources/images/mysql.png" width="100" />
+  <img src="src/main/resources/readme/readmeImages/springSecurity.png" width="100" />
+  <img src="src/main/resources/readme/readmeImages/mysql.png" width="100" />
+  <img src="src/main/resources/readme/readmeImages/thymeleaf.png" width="100" />
 </p>
 
 ## Spring Boot MySQL, Security, Thymeleaf
