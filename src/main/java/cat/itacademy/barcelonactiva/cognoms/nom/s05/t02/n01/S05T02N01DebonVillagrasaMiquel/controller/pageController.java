@@ -37,7 +37,7 @@ public class pageController {
         if(authentication != null){
             log.info(authentication.toString());
         }
-        model.addAttribute("title", "We are IT-Branch");
+        model.addAttribute("title", "We are IT-Dice Game");
         return "home";
     }
 

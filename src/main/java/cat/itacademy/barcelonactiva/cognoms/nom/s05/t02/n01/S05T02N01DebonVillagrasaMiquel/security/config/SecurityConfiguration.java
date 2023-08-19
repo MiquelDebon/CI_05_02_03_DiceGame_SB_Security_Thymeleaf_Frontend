@@ -12,10 +12,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.List;
@@ -39,19 +37,17 @@ public class SecurityConfiguration {
                         "api/mysql/auth/**",
                         // -- Swagger UI v3 (OpenAPI)
                         "/v3/api-docs/**", "/swagger-ui/**",
-                        "/images/**", "/css/**",
-                        "/page/home", "/page/login", "/page/register"
-
-                        )
+                        "/images/**", "/css/**", "/static/**", "/error/**", "/img/**", "/json/**",
+                        "/page/login", "/page/register", "/page/home")
                 .permitAll()
+                .requestMatchers("/page/players").authenticated()
 //                .requestMatchers("/admin/home").hasRole("ADMIN")
-//                .requestMatchers("/page/players").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin(form -> form
                         .loginPage("/page/login")
-                        .defaultSuccessUrl("/page/players")
+                        .defaultSuccessUrl("/page/home")
                         .loginProcessingUrl("/page/login")
                         .failureUrl("/page/login?error=true")
                         .permitAll()
@@ -59,8 +55,7 @@ public class SecurityConfiguration {
                 .logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/page/logout"))
-                                .logoutSuccessUrl("/page/home")
-//                                .deleteCookies("JSESSIONID")
+                                .logoutSuccessUrl("/page/login?logout=true")
                                 .invalidateHttpSession(true)
                                 .permitAll()
                 );

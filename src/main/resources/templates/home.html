@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head th:insert="~{/template/plantilla :: head}"></head>
+<head th:insert="~{/fragments/fragments :: head}"></head>
 
 <body>
 
     <!--Top Navigation Bar  -->
-    <section th:insert="~{/template/plantilla :: header}"></section>
+    <section th:insert="~{/fragments/fragments :: header}"></section>
 
 
     <!--Title -->
@@ -17,38 +17,41 @@
         <br>
     </div>
 
-    <h2>Welcome</h2>
+    <div class="container-fluid">
+        <h6>Welcome</h6>
+        <!-- Show this content if the user is not authenticated -->
+        <div sec:authorize="!isAuthenticated()">
+            <p>Welcome, guest! Please log in to access more features.</p>
+            <a th:href="@{/page/login}">Log in</a>
+        </div>
 
-    <p>Spring Security Thymeleaf tutorial</p>
-    <div sec:authorize="hasRole('USER')">Text visible to user.</div>
-    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
-    <div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.</div>
-    <div sec:authorize="isAuthenticated()">
-        Text visible only to authenticated users.
     </div>
-    Authenticated username:
-    <div sec:authentication="name"></div>
-    Authenticated user roles:
-    <div sec:authentication="principal.authorities"></div>
 
-    Logged user: <span sec:authentication="name"></span>
-    <br>
-    Roles: <span sec:authentication="principal.authorities"></span>
 
-    <!--Body-->
-    <div class="container-fluid ">
-        <p>We are a family branch, all together believe in JAVA and Spring</p>
+    <div
+            sec:authorize="isAuthenticated()"
+            class="container-fluid"
+    >
+        <p>Bienvenid@ <span sec:authentication="principal.username"> </span></p>
+        <p>Roles: <span sec:authentication="principal.authorities"></span></p>
+
+
         <br>
-        <p>Bienvenido <span sec:authentication="principal.username"> </span></p>
+        <hr>
+        <div sec:authorize="hasAuthority('USER')">Text visible to user.</div>
+        <div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.</div>
+        <br>
 
-        <a href="https://github.com/MiquelDebon/CI_05_02_03_DiceGame_SB_JWT_Thymeleaf_Frontend"> If you want more information - Github </a>
     </div>
+
+
+
 
 
 <!--Bellow Bar -->
-<div class="">
-    <section th:insert="~{/template/plantilla :: find-your-branch}"></section>
-    <footer id="footer" th:insert="~{/template/plantilla :: footer}"> </footer >
+<div>
+    <section th:insert="~{/fragments/fragments :: find-your-branch}"></section>
+    <footer id="footer" th:insert="~{/fragments/fragments :: footer}"> </footer >
 </div>
 
 </body>

@@ -22,20 +22,72 @@ The software must respect the main design patterns.
 
 **URL's** 
 
-    MYSQL:    /players
-    MongoDB   /playersMongoDB
+    Frontend: /page
 
-    - POST:   /players                -> Create a player.
-    - PUT     /players                -> change the name of the player.
-    - POST    /players/{id}/games/    -> A specific player rolls the dice.
-    - DELETE  /players/{id}/games     -> deletes the player's rolls.
-    - GET     /players/               -> returns the list of all the players in the system with their average success rate.
-    - GET     /players/{id}/games     -> returns the list of games for a player.
-    - GET     /players/ranking        -> returns the average ranking of all players in the system. That is, the average percentage of successes.
-    - GET     /players/ranking/loser  -> returns the player with the worst success rate.
-    - GET     /players/ranking/winner -> returns the player with the worst success rate.
+    - GET:    /home                     depending"hasAuthority('USER', 'ADMIN')"
+    - GET:    /login    ?error ?logout
+    - GET:    /register ?error
+    - GET:    /players                  "isAthenticated()"
+
+    Backend:  /players
+
+    - POST:   /players                  -> Create a player.
+    - PUT     /players                  -> change the name of the player.
+    - POST    /players/{id}/games/      -> A specific player rolls the dice.
+    - DELETE  /players/{id}/games       -> deletes the player's rolls.
+    - GET     /players/                 -> returns the list of all the players in the system with their average success rate.
+    - GET     /players/{id}/games       -> returns the list of games for a player.
+    - GET     /players/ranking          -> returns the average ranking of all players in the system. That is, the average percentage of successes.
+    - GET     /players/ranking/loser    -> returns the player with the worst success rate.
+    - GET     /players/ranking/winner   -> returns the player with the worst success rate.
 
 
+<table>
+ <tr>
+    <td><p>Home page not authenticated</p></td>
+    <td><p>Home page authenticated as a Admin</p></td>
+ </tr>
+ <tr>
+    <td> 
+    <img src="src/main/resources/readme/screenShotProject/home_notAuthorize.png" alt="Italian 404">
+    </td>
+    <td>
+    <img src="src/main/resources/readme/screenShotProject/home_admin.png" alt="Italian 500">
+    </td>
+ </tr>
+
+ <tr>
+    <td><p>Register</p></td>
+    <td><p>Log in</p></td>
+ </tr>
+ <tr>
+    <td> 
+    <img src="src/main/resources/readme/screenShotProject/register.png" alt="Italian 404">
+    </td>
+    <td>
+    <img src="src/main/resources/readme/screenShotProject/login.png" alt="Italian 500">
+    </td>
+ </tr> 
+
+<tr>
+    <td><p>Authenticated user - Access to play and current ranking</p></td>
+    <td><p>Log out</p></td>
+ </tr>
+ <tr>
+    <td> 
+    <img src="src/main/resources/readme/screenShotProject/athenticated_players.png" alt="Italian 404">
+    </td>
+    <td>
+    <img src="src/main/resources/readme/screenShotProject/logout.png" alt="Italian 500">
+    </td>
+ </tr>
+
+
+
+
+
+
+</table>
 
 
 

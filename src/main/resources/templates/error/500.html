@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="~{/template/plantilla :: head}"></head>
+<head th:insert="~{/fragments/fragments :: head}"></head>
 
 
 <body>
 
 <!--Top Navigation Bar  -->
-<section th:insert="~{template/plantilla :: header}"></section>
+<section th:insert="~{/fragments/fragments :: header}"></section>
 
 <!--Title -->
 <div class="d-flex justify-content-center align-items-center">
@@ -23,8 +23,8 @@
 
 <!--Bellow Bar -->
 <div class="fixed-bottom">
-    <section th:insert="~{template/plantilla :: find-your-branch}"></section>
-    <footer id="footer" th:insert="~{template/plantilla :: footer}"> </footer >
+    <section th:insert="~{/fragments/fragments :: find-your-branch}"></section>
+    <footer id="footer" th:insert="~{/fragments/fragments :: footer}"> </footer >
 </div>
 
 </body>
