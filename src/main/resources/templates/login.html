@@ -25,6 +25,9 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
+            <div th:if="${param.registrado}">
+                <div class="alert alert-info"> Se ha registrado correctamente</div>
+            </div>
             <div th:if="${param.exito}">
                 <div class="alert alert-info"> Login correcto</div>
             </div>

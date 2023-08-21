@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -23,11 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableMethodSecurity  //Allow to use @PreAuthorize
 public class SecurityConfiguration {
-
-    private final UserDetailsService userDetailsService;
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-
+    private final AuthenticationProvider authProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,10 +33,10 @@ public class SecurityConfiguration {
                         // -- Swagger UI v3 (OpenAPI)
                         "/v3/api-docs/**", "/swagger-ui/**",
                         "/images/**", "/css/**", "/static/**", "/error/**", "/img/**", "/json/**",
-                        "/page/login", "/page/register", "/page/home")
+                        "/page/login", "/page/register", "/page/home", "/page/actionRegister")
                 .permitAll()
                 .requestMatchers("/page/players").authenticated()
-//                .requestMatchers("/admin/home").hasRole("ADMIN")
+                .requestMatchers("/admin/home").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -58,9 +53,12 @@ public class SecurityConfiguration {
                                 .logoutSuccessUrl("/page/login?logout=true")
                                 .invalidateHttpSession(true)
                                 .permitAll()
-                );
+                )
+                .authenticationProvider(authProvider);
         return http.build();
     }
+
+
 
     /**
      * Swagger configuration

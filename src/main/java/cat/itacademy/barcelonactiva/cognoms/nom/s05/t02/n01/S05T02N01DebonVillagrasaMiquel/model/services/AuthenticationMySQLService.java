@@ -8,7 +8,7 @@ import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillag
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.entity.PlayerMySQL;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.entity.Role;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.repository.IplayerRepositoryMySQL;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.security.config.JwtService;
+//import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.security.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,9 +23,9 @@ public class AuthenticationMySQLService {
 
     private final IplayerRepositoryMySQL repository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     private final IplayerRepositoryMySQL playerRepository;
+//    private final JwtService jwtService;
+//    private final AuthenticationManager authenticationManager;
 
 
     public AuthenticationResponse register(RegisterRequest request){
@@ -42,32 +42,35 @@ public class AuthenticationMySQLService {
             }
             repository.save(user);
 
-            var jwtToken = jwtService.generateToken(user);
+//            var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
-                    .token(jwtToken)
+                    .token("jwtToken")
+//                    .token(jwtToken)
                     .build();
         }catch (DuplicateUserEmailException e){
             throw new DuplicateUserEmailException("Error duplicated email");
         }catch (DuplicateUserNameException e){
-            throw new DuplicateUserEmailException("Error duplicated name");
+            throw new DuplicateUserNameException("Error duplicated name");
         }
     }
 
-
     public AuthenticationResponse authenticate (LoginRequest request){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword()
-                )
-        );
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        request.getEmail(), request.getPassword()
+//                )
+//        );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
 
-        var jwtToken = jwtService.generateToken(user);
+//        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .token("jwtToken")
+//                    .token(jwtToken)
                 .build();
     }
+
+
 
     public void checkDuplicatedEmail(String email){
         if(playerRepository.findAll()

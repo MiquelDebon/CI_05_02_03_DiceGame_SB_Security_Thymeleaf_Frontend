@@ -18,7 +18,6 @@
     </div>
 
     <div class="container-fluid">
-        <h6>Welcome</h6>
         <!-- Show this content if the user is not authenticated -->
         <div sec:authorize="!isAuthenticated()">
             <p>Welcome, guest! Please log in to access more features.</p>
@@ -32,8 +31,23 @@
             sec:authorize="isAuthenticated()"
             class="container-fluid"
     >
-        <p>Bienvenid@ <span sec:authentication="principal.username"> </span></p>
-        <p>Roles: <span sec:authentication="principal.authorities"></span></p>
+        <h6>Bienvenid@ <span sec:authentication="principal.name"> </span></h6>
+        <h6>Roles: <span sec:authentication="principal.authorities"></span></h6>
+
+        <br>
+
+        <h6>Player data</h6>
+        <p>Name: <span sec:authentication="principal.name"></span></p>
+        <p>surname: <span sec:authentication="principal.surname"></span></p>
+        <p>registerDate: <span sec:authentication="principal.registerDate"></span></p>
+        <p>Email: <span sec:authentication="principal.email"></span></p>
+
+        <br>
+        <h6>Player statistics summary</h6>
+        <p>AmountGames: <span sec:authentication="principal.amountOfGames"></span></p>
+        <p>Won Games: <span sec:authentication="principal.wonGames"></span></p>
+        <p>Average mark: <span sec:authentication="principal.averageMark"></span></p>
+        <p>Success Rate: <span sec:authentication="principal.successRate"></span></p>
 
 
         <br>
@@ -43,8 +57,6 @@
         <br>
 
     </div>
-
-
 
 
 

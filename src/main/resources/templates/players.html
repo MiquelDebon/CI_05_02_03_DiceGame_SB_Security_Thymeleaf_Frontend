@@ -21,7 +21,15 @@
 <section id="table-content">
     <div class="container">
         <div class="row">
-            <div class="col-md-6"> </div>
+            <div class="col-md-6">
+                <h4>Play next game</h4>
+                <form th:action="@{/page/play}" method="get">
+                    <input
+                            type="submit"
+                            value="Play"
+                            class="form-control  btn btn-primary">
+                </form>
+            </div>
             <div class="container-fluid list col-md-6">
                 <h4 >Ranking:</h4>
                 <table class = "table table-dark bdr">

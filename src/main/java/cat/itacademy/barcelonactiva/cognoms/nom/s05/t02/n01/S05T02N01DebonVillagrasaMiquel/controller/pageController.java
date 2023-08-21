@@ -1,10 +1,13 @@
 package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.controller;
 
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.controller.auth.RegisterRequest;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.DuplicateUserEmailException;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.DuplicateUserNameException;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.dto.PlayerGameDTO;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.entity.PlayerMySQL;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.services.AuthenticationMySQLService;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.services.PlayerGamerServiceMySQLImpl;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -25,7 +28,6 @@ public class pageController {
 
     @Autowired
     private PlayerGamerServiceMySQLImpl services;
-
     @Autowired
     private AuthenticationMySQLService authService;
 
@@ -34,9 +36,6 @@ public class pageController {
     // http://localhost:9005/page/home
     @GetMapping("/home")
     public String homePage(Model model, Authentication authentication) {
-        if(authentication != null){
-            log.info(authentication.toString());
-        }
         model.addAttribute("title", "We are IT-Dice Game");
         return "home";
     }
@@ -49,10 +48,17 @@ public class pageController {
 
         model.addAttribute("title", "User player mode: ");
         model.addAttribute("players", players);
-        log.info("player.html page");
-
         return "players";
     }
+
+    @GetMapping("/play")
+    public String playGame(Authentication authentication){
+        PlayerMySQL player = (PlayerMySQL) authentication.getPrincipal();
+//        log.info(((PlayerMySQL) authentication.getPrincipal()).getId().toString());
+        services.saveGame(player.getId());
+        return "redirect:/page/players";
+    }
+
 
 
     // http://localhost:9005/page/login
@@ -81,11 +87,29 @@ public class pageController {
 
 
     @PostMapping("/actionRegister")
-    public String actionRegister(@ModelAttribute RegisterRequest registerRequest, BindingResult result, Model model)
+    public String actionRegister(@Valid @ModelAttribute("registerRequest") RegisterRequest registerRequest, BindingResult result, Model model)
     {
         model.addAttribute("title", "Register page new");
-        authService.register(registerRequest);
-        return "redirect:/page/register?exito";
+
+        try{
+            authService.register(registerRequest);
+        }catch (DuplicateUserEmailException e){
+            return "redirect:/page/register?duplicatedEmail=true";
+        }catch (DuplicateUserNameException e){
+            return "redirect:/page/register?duplicatedName=true";
+        }
+
+//        if(result.hasErrors()){
+//            return "redirect:/page/register";
+//        }
+        return "redirect:/page/login?registrado=true";
+    }
+
+
+    @GetMapping("/adminArea")
+    public String adminArea(Model model){
+        model.addAttribute("title", "Admin area");
+        return "admin/home";
     }
 
 
