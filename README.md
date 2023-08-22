@@ -42,58 +42,79 @@ The software must respect the main design patterns.
 <hr>
 
 
-### Home page``` /page/home```
+## Home page``` /page/home```
 *Login and Register in only visible if you are not authorized*
 
 
 Home page without login 
 ![](src/main/resources/readme/screenShotProject/home_anonim.png)
+<hr>
+
 Home page for players
 ![](src/main/resources/readme/screenShotProject/home_user.png)
+<hr>
+
 Home page for Admin *'AdminArea only visible'*
 ![](src/main/resources/readme/screenShotProject/home_admin.png)
 
 <hr>
+<hr>
 
-### Login page ``` /page/login```
+
+## Login page ``` /page/login```
 Login
 ![](src/main/resources/readme/screenShotProject/login.png)
+<hr>
+
 Logout
 ![](src/main/resources/readme/screenShotProject/logout.png)
+<hr>
+
 Login Rejected
 ![](src/main/resources/readme/screenShotProject/login_rejected.png)
+<hr>
+
 Login <- from Success register
 ![](src/main/resources/readme/screenShotProject/login_rightRegister.png)
 
 <hr>
 
-### Register page ``` /page/register```
+## Register page ``` /page/register```
 Register
 ![](src/main/resources/readme/screenShotProject/register.png)
+<hr>
+
 Register rejected by **duplicated name**
 ![](src/main/resources/readme/screenShotProject/register_rejected_username.png)
+<hr>
+
 Register rejected by **duplicated email**
 ![](src/main/resources/readme/screenShotProject/register_rejected_emial.png)
 
 <hr>
+<hr>
 
-### Players ``` /page/players```  
+## Players ``` /page/players```  
 ```"isAthenticated()"```*Any user or admin can play*
 
 Players page default
 ![](src/main/resources/readme/screenShotProject/play.png)
-Players page at playing
+<hr>
 
+Players page at playing
 *From where you can see you previous history rounds*
 ![](src/main/resources/readme/screenShotProject/playing.png)
 
-<hr>
+<hr><hr>
+
 
 ### Admin ``` /admin/home```   
 ```"hasAuthority('ADMIN')"```*As an admin you can edit, play or delete the games from any other player*
 
 Admin Area
 ![](src/main/resources/readme/screenShotProject/adminArea.png)
+<hr>
+
 Delete alert
 ![](src/main/resources/readme/screenShotProject/deleteAdmin.png)
 
