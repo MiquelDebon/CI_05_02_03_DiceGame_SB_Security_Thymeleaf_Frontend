@@ -23,7 +23,7 @@
 <section id="table-content container">
 
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-6 offset-md-3 col-sm-10 offset-sm-1">
 
 
             <div th:if="${param.duplicatedName}" class="alert alert-danger">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label for="lastname">Last name</label>
-                    <input id="lastname" type="password" th:field="*{lastname}"
+                    <input id="lastname" type="text" th:field="*{lastname}"
                            class="form-control" placeholder="Lastname" >
                 </div>
                 <div class="form-group">
@@ -57,13 +57,8 @@
                     <input id="password" type="password" th:field="*{password}"
                            class="form-control"  placeholder="Password">
                 </div>
-
+                <br>
                 <div class="form-group">
-<!--                    <input-->
-<!--                            type="submit"-->
-<!--                            value="Register"-->
-<!--                            class="form-control  btn btn-primary">-->
-
                     <button type="submit" class="btn btn-success">Register</button>
                     <span>Si estas registrado, inicia sesion</span>
                 </div>

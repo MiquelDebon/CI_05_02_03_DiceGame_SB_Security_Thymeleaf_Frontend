@@ -26,34 +26,37 @@
 
     </div>
 
-
-    <div
-            sec:authorize="isAuthenticated()"
-            class="container-fluid"
+    <div class="row"
+         sec:authorize="isAuthenticated()"
     >
-        <h6>Bienvenid@ <span sec:authentication="principal.name"> </span></h6>
-        <h6>Roles: <span sec:authentication="principal.authorities"></span></h6>
-
-        <br>
-
-        <h6>Player data</h6>
-        <p>Name: <span sec:authentication="principal.name"></span></p>
-        <p>surname: <span sec:authentication="principal.surname"></span></p>
-        <p>registerDate: <span sec:authentication="principal.registerDate"></span></p>
-        <p>Email: <span sec:authentication="principal.email"></span></p>
-
-        <br>
-        <h6>Player statistics summary</h6>
-        <p>AmountGames: <span sec:authentication="principal.amountOfGames"></span></p>
-        <p>Won Games: <span sec:authentication="principal.wonGames"></span></p>
-        <p>Average mark: <span sec:authentication="principal.averageMark"></span></p>
-        <p>Success Rate: <span sec:authentication="principal.successRate"></span></p>
-
+        <div
+                class="col-md-3 offset-md-3 col-sm-10 offset-sm-1"
+        >
+            <h6>Player data</h6>
+            <p>Name: <span sec:authentication="principal.name"></span></p>
+            <p>surname: <span sec:authentication="principal.surname"></span></p>
+            <p>registerDate: <span sec:authentication="principal.registerDate"></span></p>
+            <p>Email: <span sec:authentication="principal.email"></span></p>
+        </div>
+        <div
+                class="col-md-3  col-sm-10 offset-sm-1"
+        >
+            <br>
+            <h6>Player statistics summary</h6>
+            <p>AmountGames: <span sec:authentication="principal.amountOfGames"></span></p>
+            <p>Won Games: <span sec:authentication="principal.wonGames"></span></p>
+            <p>Average mark: <span sec:authentication="principal.averageMark"></span></p>
+            <p>Success Rate: <span sec:authentication="principal.successRate"></span></p>
+        </div>
 
         <br>
         <hr>
-        <div sec:authorize="hasAuthority('USER')">Text visible to user.</div>
-        <div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.</div>
+        <div class="container-fluid">
+            <div sec:authorize="hasAuthority('USER')">Text visible to user.</div>
+            <div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.</div>
+
+        </div>
+
         <br>
 
     </div>

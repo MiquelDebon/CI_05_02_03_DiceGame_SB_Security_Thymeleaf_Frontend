@@ -3,6 +3,7 @@ package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVilla
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.controller.auth.RegisterRequest;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.DuplicateUserEmailException;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.DuplicateUserNameException;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.dto.GameDTO;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.dto.PlayerGameDTO;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.entity.PlayerMySQL;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.services.AuthenticationMySQLService;
@@ -10,16 +11,15 @@ import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillag
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -30,7 +30,6 @@ public class pageController {
     private PlayerGamerServiceMySQLImpl services;
     @Autowired
     private AuthenticationMySQLService authService;
-
 
 
     // http://localhost:9005/page/home
@@ -52,11 +51,25 @@ public class pageController {
     }
 
     @GetMapping("/play")
-    public String playGame(Authentication authentication){
+    public String playGame(Authentication authentication, Model model){
         PlayerMySQL player = (PlayerMySQL) authentication.getPrincipal();
 //        log.info(((PlayerMySQL) authentication.getPrincipal()).getId().toString());
-        services.saveGame(player.getId());
-        return "redirect:/page/players";
+        GameDTO game = services.saveGame(player.getId());
+        model.addAttribute("roll", game);
+
+        List<PlayerGameDTO> players = services.getAllPlayersDTORanking();
+        model.addAttribute("title", "User player mode: ");
+        model.addAttribute("players", players);
+
+        List<GameDTO> playerGames = services.findGamesByPlayerId(player.getId());
+        model.addAttribute("games", playerGames);
+
+        return "players";
+    }
+    @GetMapping("/play/{id}")
+    public String playGameID(Authentication authentication, @PathVariable int id , Model model){
+        GameDTO game = services.saveGame(id);
+        return "redirect:/page/adminArea";
     }
 
 
@@ -85,6 +98,23 @@ public class pageController {
         return "register";
     }
 
+    @GetMapping("update/{id}")
+    public String updateById(@PathVariable int id, Model model){
+        model.addAttribute("title", "EDIT a player");
+        PlayerMySQL player = services.getPlayer(id);
+        RegisterRequest registerRequest = RegisterRequest.builder()
+                .firstname(player.getName())
+                .lastname(player.getSurname())
+                .email(player.getEmail())
+                .password("password")
+                .build();
+
+        model.addAttribute("title", "Edit a player");
+        model.addAttribute("registerRequest", registerRequest);
+
+        return "register";
+    }
+
 
     @PostMapping("/actionRegister")
     public String actionRegister(@Valid @ModelAttribute("registerRequest") RegisterRequest registerRequest, BindingResult result, Model model)
@@ -108,10 +138,29 @@ public class pageController {
 
     @GetMapping("/adminArea")
     public String adminArea(Model model){
-        model.addAttribute("title", "Admin area");
+        model.addAttribute("title", "Admin area: As an admin you have full control of all users ");
+
+        List<PlayerMySQL> listPlayers = services.getAllPlayerMySQL();
+
+        model.addAttribute("players", listPlayers);
+
         return "admin/home";
     }
 
+
+
+    @GetMapping("/delete/{id}")
+    public String deleteById(@PathVariable int id){
+        if(id>0){
+            services.deleteGamesByPlayerId(id);
+            log.info("Deleted games from USER id '" + id + "' from the database");
+
+            return "redirect:/page/adminArea";
+        }else{
+            return "error/404";
+        }
+
+    }
 
 
 

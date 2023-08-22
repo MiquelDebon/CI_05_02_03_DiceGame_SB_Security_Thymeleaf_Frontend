@@ -66,8 +66,23 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
             log.error(BaseDescriptionException.EMPTY_DATABASE);
             throw new EmptyDataBaseException(BaseDescriptionException.EMPTY_DATABASE);
         }
-
     }
+
+    public List<PlayerMySQL> getAllPlayerMySQL(){
+        List<PlayerMySQL> playerMySQLList = playerRepositorySQL.findAll();
+        if(playerMySQLList.size() > 0){
+            return playerMySQLList;
+        }else{
+            log.error(BaseDescriptionException.EMPTY_DATABASE);
+            throw new EmptyDataBaseException(BaseDescriptionException.EMPTY_DATABASE);
+        }
+    }
+
+    public PlayerMySQL getPlayer(int id){
+        return playerRepositorySQL.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(BaseDescriptionException.NO_USER_BY_THIS_ID));
+    }
+
 
     @Override
     public List<PlayerGameDTO> getAllPlayersDTORanking(){

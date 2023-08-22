@@ -21,76 +21,90 @@ The software must respect the main design patterns.
 
 **URL's** 
 
-    Frontend: /page
+    Frontend: /page                     security
+    - GET:    /home                     "isAnonymous()"
+    - GET:    /home                     "isAthenticated()"
 
-    - GET:    /home                     depending"hasAuthority('USER', 'ADMIN')"
-    - GET:    /login    ?error ?logout
-    - GET:    /register ?error
+    - GET:    /login    ?error ?logout  "permitAll"
+    - GET:    /register ?error          "permitAll"
+
     - GET:    /players                  "isAthenticated()"
 
-    Backend:  /players
-
-    - POST:   /players                  -> Create a player.
-    - PUT     /players                  -> change the name of the player.
-    - POST    /players/{id}/games/      -> A specific player rolls the dice.
-    - DELETE  /players/{id}/games       -> deletes the player's rolls.
-    - GET     /players/                 -> returns the list of all the players in the system with their average success rate.
-    - GET     /players/{id}/games       -> returns the list of games for a player.
-    - GET     /players/ranking          -> returns the average ranking of all players in the system. That is, the average percentage of successes.
-    - GET     /players/ranking/loser    -> returns the player with the worst success rate.
-    - GET     /players/ranking/winner   -> returns the player with the worst success rate.
+    - GET:    /adminArea                "hasAuthority('ADMIN')"
 
 
-<table>
- <tr>
-    <td><p>Home page not authenticated</p></td>
-    <td><p>Home page authenticated as a Admin</p></td>
- </tr>
- <tr>
-    <td> 
-    <img src="src/main/resources/readme/screenShotProject/home_notAuthorize.png" alt="Italian 404">
-    </td>
-    <td>
-    <img src="src/main/resources/readme/screenShotProject/home_admin.png" alt="Italian 500">
-    </td>
- </tr>
-
- <tr>
-    <td><p>Register</p></td>
-    <td><p>Log in</p></td>
- </tr>
- <tr>
-    <td> 
-    <img src="src/main/resources/readme/screenShotProject/register.png" alt="Italian 404">
-    </td>
-    <td>
-    <img src="src/main/resources/readme/screenShotProject/login.png" alt="Italian 500">
-    </td>
- </tr> 
-
-<tr>
-    <td><p>Authenticated user - Access to play and current ranking</p></td>
-    <td><p>Log out</p></td>
- </tr>
- <tr>
-    <td> 
-    <img src="src/main/resources/readme/screenShotProject/athenticated_players.png" alt="Italian 404">
-    </td>
-    <td>
-    <img src="src/main/resources/readme/screenShotProject/logout.png" alt="Italian 500">
-    </td>
- </tr>
+    Backend:  /page
+    - POST:   /actionRegister           -> Create a player.                 return: "redirect:/page/login?registrado=true"
+    - PUT     /update/{id}              -> change the name of the player.   return: "register"
+    - GET     /delete/{id}              -> deletes the player's rolls.      return: "redirect:/page/adminArea"
 
 
+<hr>
 
 
+### Home page``` /page/home```
+*Login and Register in only visible if you are not authorized*
 
 
-</table>
+Home page without login 
+![](src/main/resources/readme/screenShotProject/home_anonim.png)
+Home page for players
+![](src/main/resources/readme/screenShotProject/home_user.png)
+Home page for Admin *'AdminArea only visible'*
+![](src/main/resources/readme/screenShotProject/home_admin.png)
+
+<hr>
+
+### Login page ``` /page/login```
+Login
+![](src/main/resources/readme/screenShotProject/login.png)
+Logout
+![](src/main/resources/readme/screenShotProject/logout.png)
+Login Rejected
+![](src/main/resources/readme/screenShotProject/login_rejected.png)
+Login <- from Success register
+![](src/main/resources/readme/screenShotProject/login_rightRegister.png)
+
+<hr>
+
+### Register page ``` /page/register```
+Register
+![](src/main/resources/readme/screenShotProject/register.png)
+Register rejected by **duplicated name**
+![](src/main/resources/readme/screenShotProject/register_rejected_username.png)
+Register rejected by **duplicated email**
+![](src/main/resources/readme/screenShotProject/register_rejected_emial.png)
+
+<hr>
+
+### Players ``` /page/players```  
+```"isAthenticated()"```*Any user or admin can play*
+
+Players page default
+![](src/main/resources/readme/screenShotProject/play.png)
+Players page at playing
+
+*From where you can see you previous history rounds*
+![](src/main/resources/readme/screenShotProject/playing.png)
+
+<hr>
+
+### Admin ``` /admin/home```   
+```"hasAuthority('ADMIN')"```*As an admin you can edit, play or delete the games from any other player*
+
+Admin Area
+![](src/main/resources/readme/screenShotProject/adminArea.png)
+Delete alert
+![](src/main/resources/readme/screenShotProject/deleteAdmin.png)
 
 
 
 ### References:
 - [spring-boot-spring-security-thymeleaf-example](https://mkyong.com/spring-boot/spring-boot-spring-security-thymeleaf-example/)
+- [Spring Security – Authentication Providers](https://www.geeksforgeeks.org/spring-security-authentication-providers/)
+- [Spring MVC Tutorial Project For Beginners | Teddy Smith](https://www.youtube.com/playlist?list=PL82C6-O4XrHejlASdecIsroNEbZFYo_X1)
+- [Complete End-to-End Spring MVC Web Application | Spring Boot 3 | Spring Security 6 | Thymeleaf. #3](https://www.youtube.com/watch?v=OmQPR1RwZ38)
+- [Inicio de sesión y registro de usuarios con Spring Security + Thymeleaf + MySQL y Bootstrap](https://www.youtube.com/watch?v=0wTsLRxS3gA)
+- [Spring Boot 3 + Spring Security 6 - JWT Authentication and Authorisation [NEW] [2023]](https://www.youtube.com/watch?v=KxqlJblhzfI&t=5691s)
 
 

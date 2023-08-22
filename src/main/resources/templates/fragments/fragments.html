@@ -47,9 +47,21 @@
                             <a class="nav-link active" aria-current="page" href="http://localhost:9005/page/home">Home</a>
                             <a class="nav-link" th:href="@{/page/players}">Players</a>
                             <a class="nav-link " href="https://www.linkedin.com/in/miquel-debon-villagrasa/">Linkedin</a>
-                            <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-outline-dark" th:href="@{/page/adminArea}">Admin Area</a>
                         </div>
+
+                        <div sec:authorize="isAuthenticated()" >
+                            <a class="nav-link active">|    User: <span sec:authentication="principal.name"> </span></a>
+                        </div>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="nav-link active" >, Rol: <span sec:authentication="principal.authorities"></span></a>
+                        </div>
+
+                        <a sec:authorize="hasAuthority('ADMIN')" class="paddingMiquel btn btn-outline-dark" th:href="@{/page/adminArea}">Admin Area</a>
+
+
                     </div>
+
+
 
                     <div>
                         <a sec:authorize="isAnonymous()" class="btn btn-outline-success" th:href="@{/page/register}">Register</a>

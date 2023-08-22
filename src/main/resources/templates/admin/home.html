@@ -17,47 +17,69 @@
         <br>
     </div>
 
-    <div class="container-fluid">
-        <!-- Show this content if the user is not authenticated -->
-        <div sec:authorize="!isAuthenticated()">
-            <p>Welcome, guest! Please log in to access more features.</p>
-            <a th:href="@{/page/login}">Log in</a>
-        </div>
-
-    </div>
 
 
     <div
-            sec:authorize="isAuthenticated()"
-            class="container-fluid"
+        sec:authorize="hasAuthority('ADMIN')"
     >
-        <h6>Bienvenid@ <span sec:authentication="principal.name"> </span></h6>
-        <h6>Roles: <span sec:authentication="principal.authorities"></span></h6>
+        <div class="container">
+            <div class="row">
+                <h4 >List of player:</h4>
+                <table class = "table table-dark bdr">
+                    <thead>
+                    <tr>
+                        <th scope = "col">ID</th>
+                        <th scope = "col">Register date</th>
+                        <th scope = "col">Name</th>
+                        <th scope = "col">Surname</th>
+                        <th scope = "col">Email</th>
+                        <th scope = "col">Amount of Games </th>
+                        <th scope = "col">Won games </th>
+                        <th scope = "col">Average mark</th>
+                        <th scope = "col">Success rate  </th>
+                        <th scope = "col">Role  </th>
+                        <th scope = "col">Update </th>
+                        <th scope = "col">Play </th>
+                        <th scope = "col">Delete  </th>
+<!--                            <th scope = "col">Delete game  </th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="player: ${players}">
+                        <td th:text = "${player.id}"></td>
+                        <td th:text = "${player.registerDate}"></td>
+                        <td th:text = "${player.name}"></td>
+                        <td th:text = "${player.surname}"></td>
+                        <td th:text = "${player.email}"></td>
+                        <td th:text = "${player.amountOfGames}"></td>
+                        <td th:text = "${player.wonGames}"></td>
+                        <td th:text = "${player.averageMark}"></td>
+                        <td th:text = "${player.successRate}"></td>
+                        <td th:text = "${player.role}"></td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" th:href="@{/page/update/{id}(id=${player.id})}"
+                               th:text="Edit">
 
-        <br>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-success btn-sm" th:href="@{/page/play/{id}(id=${player.id})}"
+                               th:text="Play">
 
-        <h6>Player data</h6>
-        <p>Name: <span sec:authentication="principal.name"></span></p>
-        <p>surname: <span sec:authentication="principal.surname"></span></p>
-        <p>registerDate: <span sec:authentication="principal.registerDate"></span></p>
-        <p>Email: <span sec:authentication="principal.email"></span></p>
-
-        <br>
-        <h6>Player statistics summary</h6>
-        <p>AmountGames: <span sec:authentication="principal.amountOfGames"></span></p>
-        <p>Won Games: <span sec:authentication="principal.wonGames"></span></p>
-        <p>Average mark: <span sec:authentication="principal.averageMark"></span></p>
-        <p>Success Rate: <span sec:authentication="principal.successRate"></span></p>
-
-
-
-
-        <br>
-        <hr>
-        <div sec:authorize="hasAuthority('USER')">Text visible to user.</div>
-        <div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.</div>
-        <br>
-
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" th:href="@{/page/delete/{id}(id=${player.id})}"
+                               th:text="Delete"
+                               onclick="return confirm('Are you sure deleting games of this player?')">
+<!--                               onclick="{return confirm, are you sure deleting games of {name}(name=${player.name})}  " >-->
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
     </div>
 
 
