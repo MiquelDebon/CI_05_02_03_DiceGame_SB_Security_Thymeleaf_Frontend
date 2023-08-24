@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IplayerRepositoryMySQL extends JpaRepository<PlayerMySQL, Integer> {
+public interface IplayerRepository extends JpaRepository<PlayerMySQL, Integer> {
     boolean existsByEmail(String email);
     Optional<PlayerMySQL> findByEmail(String email);
 

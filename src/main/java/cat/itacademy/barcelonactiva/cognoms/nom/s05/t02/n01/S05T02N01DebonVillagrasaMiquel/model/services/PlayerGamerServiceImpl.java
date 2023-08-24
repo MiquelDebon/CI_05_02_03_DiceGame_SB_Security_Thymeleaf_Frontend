@@ -1,17 +1,20 @@
 package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.services;
 
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.controller.auth.RegisterRequest;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.BaseDescriptionException;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.EmptyDataBaseException;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.exceptions.MessageException;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.exceptions.customExceptions.EmptyDataBaseException;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.dto.GameDTO;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.dto.PlayerGameDTO;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.entity.GameMySQL;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.entity.PlayerMySQL;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.UserNotFoundException;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.repository.IplayerRepositoryMySQL;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.repository.IGameRepositoryMySQL;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.exceptions.customExceptions.UserNotFoundException;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.repository.IplayerRepository;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.repository.IGameRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +23,26 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
+public class PlayerGamerServiceImpl implements IPlayerGamerService {
 
 
-    @Autowired
-    private IGameRepositoryMySQL gameRepository;
-    @Autowired
-    private IplayerRepositoryMySQL playerRepositorySQL;
-    @Autowired
-    private AuthenticationMySQLService authenticationMySQLService;
-    @Autowired
+    private IGameRepository gameRepository;
+    private IplayerRepository playerRepositorySQL;
+    private AuthenticationServiceImpl authenticationMySQLService;
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public PlayerGamerServiceImpl(
+            IGameRepository gameRepository,
+            IplayerRepository playerRepositorySQL,
+            AuthenticationServiceImpl authenticationMySQLService,
+            PasswordEncoder passwordEncoder) {
+        this.gameRepository = gameRepository;
+        this.playerRepositorySQL = playerRepositorySQL;
+        this.authenticationMySQLService = authenticationMySQLService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
 
     /**
@@ -63,8 +75,8 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
                     .map(p -> this.playerDTOfromPlayer(p))
                     .collect(Collectors.toList());
         }else{
-            log.error(BaseDescriptionException.EMPTY_DATABASE);
-            throw new EmptyDataBaseException(BaseDescriptionException.EMPTY_DATABASE);
+            log.error(MessageException.EMPTY_DATABASE);
+            throw new EmptyDataBaseException(MessageException.EMPTY_DATABASE);
         }
     }
 
@@ -73,14 +85,14 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
         if(playerMySQLList.size() > 0){
             return playerMySQLList;
         }else{
-            log.error(BaseDescriptionException.EMPTY_DATABASE);
-            throw new EmptyDataBaseException(BaseDescriptionException.EMPTY_DATABASE);
+            log.error(MessageException.EMPTY_DATABASE);
+            throw new EmptyDataBaseException(MessageException.EMPTY_DATABASE);
         }
     }
 
     public PlayerMySQL getPlayer(int id){
         return playerRepositorySQL.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(BaseDescriptionException.NO_USER_BY_THIS_ID));
+                .orElseThrow(() -> new UserNotFoundException(MessageException.NO_USER_BY_THIS_ID));
     }
 
 
@@ -93,8 +105,8 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
                     .map(p -> this.playerDTOfromPlayer(p))
                     .collect(Collectors.toList());
         }else{
-            log.error(BaseDescriptionException.EMPTY_DATABASE);
-            throw new EmptyDataBaseException(BaseDescriptionException.EMPTY_DATABASE);
+            log.error(MessageException.EMPTY_DATABASE);
+            throw new EmptyDataBaseException(MessageException.EMPTY_DATABASE);
         }
     }
 
@@ -125,8 +137,8 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
         if(player.isPresent()){
             return this.playerDTOfromPlayer(player.get());
         }else{
-            log.error(BaseDescriptionException.NO_USER_BY_THIS_ID);
-            throw new UserNotFoundException(BaseDescriptionException.NO_USER_BY_THIS_ID);
+            log.error(MessageException.NO_USER_BY_THIS_ID);
+            throw new UserNotFoundException(MessageException.NO_USER_BY_THIS_ID);
         }
     }
 
@@ -137,8 +149,8 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
                     .map(this::gameDTOfromGame)
                     .collect(Collectors.toList());
         }else{
-            log.error(BaseDescriptionException.NO_USER_BY_THIS_ID);
-            throw new UserNotFoundException(BaseDescriptionException.NO_USER_BY_THIS_ID);
+            log.error(MessageException.NO_USER_BY_THIS_ID);
+            throw new UserNotFoundException(MessageException.NO_USER_BY_THIS_ID);
         }
     }
 
@@ -146,7 +158,7 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
     public GameDTO saveGame(int playerId){
         int result = LogicGame.PLAY();
         PlayerMySQL player = playerRepositorySQL.findById(playerId).
-                orElseThrow(() -> new UserNotFoundException(BaseDescriptionException.NO_USER_BY_THIS_ID));
+                orElseThrow(() -> new UserNotFoundException(MessageException.NO_USER_BY_THIS_ID));
 
         GameMySQL savedGame = gameRepository.save(new GameMySQL(result, player));
         playerRepositorySQL.save(player.autoSetNewGamesRates(result));
@@ -162,8 +174,8 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
                     .map(this::gameDTOfromGame)
                     .collect(Collectors.toList());
         }else{
-            log.error(BaseDescriptionException.NO_USER_BY_THIS_ID);
-            throw new UserNotFoundException(BaseDescriptionException.NO_USER_BY_THIS_ID);
+            log.error(MessageException.NO_USER_BY_THIS_ID);
+            throw new UserNotFoundException(MessageException.NO_USER_BY_THIS_ID);
         }
     }
 
@@ -184,7 +196,19 @@ public class PlayerGamerServiceMySQLImpl implements IPlayerGamerServiceMySQL {
     public Double averageTotalMarks(){
         return this.getAllPlayersDTO().stream()
                 .mapToDouble(PlayerGameDTO::getAverageMark)
-                .average().getAsDouble();
+                .average()
+                .orElseThrow(EmptyDataBaseException::new);
+    }
+
+    @Override
+    public List<GameDTO> getGamePagination(int id, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<GameMySQL> games = gameRepository.findByPlayerId(id, pageable);
+        List<GameMySQL> listOfGames = games.getContent();
+
+        return listOfGames.stream()
+                .map(this::gameDTOfromGame)
+                .collect(Collectors.toList());
     }
 
 

@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                         // -- Swagger UI v3 (OpenAPI)
                         "/v3/api-docs/**", "/swagger-ui/**",
                         "/images/**", "/css/**", "/static/**", "/error/**", "/img/**", "/json/**",
-                        "/page/login", "/page/register", "/page/home", "/page/actionRegister")
+                        "/page/login", "/page/register", "/page/home", "/page/actionRegister", "/paginable")
                 .permitAll()
                 .requestMatchers("/page/players").authenticated()
                 .requestMatchers("/admin/home").hasRole("ADMIN")

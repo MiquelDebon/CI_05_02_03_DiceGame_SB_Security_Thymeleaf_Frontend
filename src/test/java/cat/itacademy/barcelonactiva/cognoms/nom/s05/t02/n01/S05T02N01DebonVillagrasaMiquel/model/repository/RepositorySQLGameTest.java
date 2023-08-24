@@ -24,7 +24,7 @@ public class RepositorySQLGameTest {
      */
 
     @Autowired
-    private IGameRepositoryMySQL gameMySQLRepository;
+    private IGameRepository gameMySQLRepository;
 
 
     PlayerMySQL playerMySQL1 = new PlayerMySQL("Miquel");

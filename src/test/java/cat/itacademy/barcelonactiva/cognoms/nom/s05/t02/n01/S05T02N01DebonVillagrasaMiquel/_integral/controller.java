@@ -1,7 +1,7 @@
 package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel._integral;
 
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.ExceptionHandler.ApiExceptionHandler;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.services.PlayerGamerServiceMySQLImpl;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.exceptions.GlobalExceptionHandler;
+import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.services.PlayerGamerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class controller {
     @InjectMocks
     private DiceControllerMySQL underTestController;
     @Mock
-    private PlayerGamerServiceMySQLImpl service;
+    private PlayerGamerServiceImpl service;
     @Mock
     private SecurityContextHolder securityContextHolder;
     @Autowired
@@ -40,7 +40,7 @@ public class controller {
     @BeforeEach
     public void init(){
         mockMvc = MockMvcBuilders.standaloneSetup(underTestController)
-                .setControllerAdvice(new ApiExceptionHandler())
+                .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
     }
 

@@ -27,7 +27,7 @@ public class RepositorySQLPlayerTest {
      */
 
     @Autowired
-    private IplayerRepositoryMySQL playerMySQLRepository;
+    private IplayerRepository playerMySQLRepository;
 
     private PlayerMySQL playerMySQL_AllArguments;
     private PlayerMySQL playerMySQL1;
