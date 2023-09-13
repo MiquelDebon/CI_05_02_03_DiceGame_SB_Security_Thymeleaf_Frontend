@@ -12,7 +12,7 @@ public interface IPlayerGamerService {
 
     List<PlayerGameDTO> getAllPlayersDTO();
     List<PlayerGameDTO> getAllPlayersDTORanking();
-    PlayerGameDTO updatePlayer(RegisterRequest updatedPlayer, String currentEmail);
+    PlayerGameDTO updatePlayer(RegisterRequest updatedPlayer, int id);
     GameDTO saveGame(int id);
     List<GameDTO> deleteGamesByPlayerId(int id);
     PlayerGameDTO findPlayerDTOById(int id);

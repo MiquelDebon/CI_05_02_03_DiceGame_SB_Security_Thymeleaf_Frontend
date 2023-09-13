@@ -111,24 +111,37 @@ public class PlayerGamerServiceImpl implements IPlayerGamerService {
     }
 
     @Override
-    public PlayerGameDTO updatePlayer(RegisterRequest updatedPlayer, String currentEmail){
+    public PlayerGameDTO updatePlayer(RegisterRequest updatedPlayer, int id){
 
-        PlayerMySQL newPlayer = playerRepositorySQL.findByEmail(currentEmail).get();
-        authenticationMySQLService.checkDuplicatedName(updatedPlayer.getFirstname());
 
-        newPlayer.setName(updatedPlayer.getFirstname());
-        newPlayer.setSurname(updatedPlayer.getLastname());
-        newPlayer.setPassword(passwordEncoder.encode(updatedPlayer.getPassword()));
+        PlayerMySQL player = playerRepositorySQL.findById(id)
+                .orElseThrow(UserNotFoundException::new);
 
-        if(!currentEmail.equalsIgnoreCase(updatedPlayer.getEmail())){
+        //Check the new name is not duplicated
+        String currentName = player.getName();
+        String updatedName = updatedPlayer.getFirstname();
+        if(!currentName.equalsIgnoreCase(updatedName)){
+            authenticationMySQLService.checkDuplicatedName(updatedPlayer.getFirstname());
+            player.setName(updatedPlayer.getFirstname());
+            playerRepositorySQL.save(player);
+        }
+
+        //Check the new email is not duplicated
+        String currentEmail = player.getEmail();
+        String updatedEmail = updatedPlayer.getEmail();
+        if(!currentEmail.equalsIgnoreCase(updatedEmail)){
             authenticationMySQLService.checkDuplicatedEmail(updatedPlayer.getEmail());
-            newPlayer.setEmail(updatedPlayer.getEmail());
+            player.setEmail(updatedPlayer.getEmail());
+            playerRepositorySQL.save(player);
             log.warn("Log out and log in again, otherwise the token will fail because the username won't match");
         }
 
-        playerRepositorySQL.save(newPlayer);
-        return this.playerDTOfromPlayer(newPlayer);
+        //Set the new values
+        player.setSurname(updatedPlayer.getLastname());
+        player.setPassword(passwordEncoder.encode(updatedPlayer.getPassword()));
+        playerRepositorySQL.save(player);
 
+        return this.playerDTOfromPlayer(player);
     }
 
     @Override
@@ -209,6 +222,10 @@ public class PlayerGamerServiceImpl implements IPlayerGamerService {
         return listOfGames.stream()
                 .map(this::gameDTOfromGame)
                 .collect(Collectors.toList());
+    }
+
+    public void tryit(){
+
     }
 
 
