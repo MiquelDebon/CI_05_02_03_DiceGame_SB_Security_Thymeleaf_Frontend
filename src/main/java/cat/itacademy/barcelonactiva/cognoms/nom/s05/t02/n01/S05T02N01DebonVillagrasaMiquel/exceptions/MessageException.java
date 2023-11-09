@@ -1,4 +1,4 @@
-package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.model.exceptions;
+package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.exceptions;
 
 public class MessageException {
     public static final String NO_USER_BY_THIS_ID = "There is no such player with this ID";

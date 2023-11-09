@@ -1,4 +1,4 @@
-package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.security.config;
+package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01DebonVillagrasaMiquel.security;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.util.List;
 
@@ -65,35 +67,48 @@ public class SecurityConfiguration {
      */
 
 
-    @Value("${miqueldebon.openapi.dev-url}")
-    private String devUrl;
-    @Value("${miqueldebon.openapi.prod-url}")
-    private String prodUrl;
+//    @Value("${miqueldebon.openapi.dev-url}")
+//    private String devUrl;
+//    @Value("${miqueldebon.openapi.prod-url}")
+//    private String prodUrl;
+//
+//    @Bean
+//    public OpenAPI myOpenAPI() {
+//        Server devServer = new Server();
+//        devServer.setUrl(devUrl);
+//        devServer.setDescription("Server URL in Development environment");
+//
+//        Server prodServer = new Server();
+//        prodServer.setUrl(prodUrl);
+//        prodServer.setDescription("Server URL in Production environment");
+//
+//        Contact contact = new Contact();
+//        contact.setEmail("debon.miquel@gmail.com");
+//        contact.setName("Miquel");
+//        contact.setUrl("https://www.linkedin.com/in/miquel-debon-villagrasa/");
+//
+//
+//        Info info = new Info()
+//                .title("Tutorial Management API")
+//                .version("1.0")
+//                .contact(contact)
+//                .description("This API exposes endpoints to manage tutorials.");
+//
+//        return new OpenAPI().info(info)
+//                .servers(List.of(devServer, prodServer));
+//    }
 
     @Bean
-    public OpenAPI myOpenAPI() {
-        Server devServer = new Server();
-        devServer.setUrl(devUrl);
-        devServer.setDescription("Server URL in Development environment");
+    public ClassLoaderTemplateResolver secondaryTemplateResolver() {
+        ClassLoaderTemplateResolver secondaryTemplateResolver = new ClassLoaderTemplateResolver();
+        secondaryTemplateResolver.setPrefix("/templates");
+        secondaryTemplateResolver.setSuffix(".html");
+        secondaryTemplateResolver.setTemplateMode(TemplateMode.HTML);
+        secondaryTemplateResolver.setCharacterEncoding("UTF-8");
+        secondaryTemplateResolver.setOrder(1);
+        secondaryTemplateResolver.setCheckExistence(true);
 
-        Server prodServer = new Server();
-        prodServer.setUrl(prodUrl);
-        prodServer.setDescription("Server URL in Production environment");
-
-        Contact contact = new Contact();
-        contact.setEmail("miquel.debon@gmail.com");
-        contact.setName("Miquel");
-        contact.setUrl("https://www.linkedin.com/in/miquel-debon-villagrasa/");
-
-
-        Info info = new Info()
-                .title("Tutorial Management API")
-                .version("1.0")
-                .contact(contact)
-                .description("This API exposes endpoints to manage tutorials.");
-
-        return new OpenAPI().info(info)
-                .servers(List.of(devServer, prodServer));
+        return secondaryTemplateResolver;
     }
 
 

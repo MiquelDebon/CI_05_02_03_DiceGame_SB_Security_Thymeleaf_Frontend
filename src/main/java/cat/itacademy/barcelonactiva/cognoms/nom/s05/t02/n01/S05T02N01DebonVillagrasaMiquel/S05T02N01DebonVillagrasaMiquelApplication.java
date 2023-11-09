@@ -20,10 +20,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		bearerFormat = "JWT",
 		description = "JWT security")
 
+
+
 public class S05T02N01DebonVillagrasaMiquelApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(S05T02N01DebonVillagrasaMiquelApplication.class, args);
 	}
+
+	// http://localhost:9005/page/home
 
 }

@@ -3,13 +3,13 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 
-<head th:insert="~{/fragments/fragments :: head}"></head>
+<head th:insert="~{/fragments :: head}"></head>
 
 
 <body>
 
 <!--Top Navigation Bar  -->
-<section th:insert="~{/fragments/fragments :: header}"></section>
+<section th:insert="~{/fragments :: header}"></section>
 
 
 <!--Title -->
@@ -75,8 +75,8 @@
 
 <!--Bellow Bar -->
 <div class="">
-    <section th:insert="~{/fragments/fragments :: find-your-branch}"></section>
-    <footer id="footer" th:insert="~{/fragments/fragments :: footer}"> </footer >
+    <section th:insert="~{/fragments :: find-your-branch}"></section>
+    <footer id="footer" th:insert="~{/fragments :: footer}"> </footer >
 </div>
 
 </body>
